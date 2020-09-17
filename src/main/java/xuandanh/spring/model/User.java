@@ -1,0 +1,77 @@
+ package xuandanh.spring.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "user")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private int id;
+    @Column(name = "email")
+    @Email(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide an email")
+    private String email;
+    @Column(name = "password")
+    @Length(min = 5, message = "*Your password must have at least 5 characters")
+    @NotEmpty(message = "*Please provide your password")
+    private String password;
+    @Column(name = "name")
+    @NotEmpty(message = "*Please provide your name")
+    private String name;
+    @Column(name = "last_name")
+    @NotEmpty(message = "*Please provide your last name")
+    private String lastName;
+    @Column(name = "active")
+    private int active;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+	public void setRoles(HashSet<Role> hashSet) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setActive(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+	public CharSequence getPassword() {
+		// TODO Auto-generated method stub
+		return password;
+	}
+	public void setPassword(String encode) {
+		// TODO Auto-generated method stub
+		this.password=encode;
+	}
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return email;
+	}
+	public String getName() {
+		// TODO Auto-generated method stub
+		return name;
+	}
+	public String getLastName() {
+		// TODO Auto-generated method stub
+		return lastName;
+	}
+
+}
